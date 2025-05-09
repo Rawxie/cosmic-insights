@@ -1,0 +1,36 @@
+---
+interface Props {
+  reading: string;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const { reading, isLoading, error } = Astro.props;
+---
+
+<div class="space-y-8">
+  {isLoading && (
+    <div class="text-center">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-600 border-t-transparent"></div>
+      <p class="mt-4 text-gray-400">Generating your cosmic reading...</p>
+    </div>
+  )}
+
+  {error && (
+    <div class="bg-red-900/50 rounded-xl p-8 shadow-2xl">
+      <h2 class="text-3xl font-bold mb-6 text-red-400">Error</h2>
+      <p class="text-red-300">{error}</p>
+    </div>
+  )}
+
+  {reading && !isLoading && !error && (
+    <div class="bg-gray-900 rounded-xl p-8 shadow-2xl">
+      <h2 class="text-3xl font-bold mb-6">Your Cosmic Reading</h2>
+      <div class="prose prose-invert max-w-none" set:html={reading}></div>
+    </div>
+  )}
+</div>
+
+<script>
+  // Add any client-side interactivity here if needed
+</script> 

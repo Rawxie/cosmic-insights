@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+---
+
+<Layout title="About - Cosmic Insights">
+  <Navigation currentPage="about" />
+  
+  <main class="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <!-- Cosmic background elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
+      <div class="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style="animation-delay: 1s"></div>
+      <div class="absolute w-64 h-64 bg-indigo-500/20 rounded-full blur-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-delay: 2s"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold text-white mb-4 animate-fade-in">About Cosmic Insights</h1>
+        <p class="text-xl text-gray-400 animate-fade-in" style="animation-delay: 0.2s">Where Technology Meets Astrology</p>
+      </div>
+
+      <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-8 mb-8 transform transition-all duration-300">
+        <h2 class="text-3xl font-semibold text-white mb-6">Our Mission</h2>
+        <p class="text-gray-300 mb-6">
+          Cosmic Insights was born from the desire to make astrology more accessible and personalized through the power of artificial intelligence. We combine traditional astrological wisdom with cutting-edge AI technology to provide you with meaningful and accurate readings.
+        </p>
+        <p class="text-gray-300">
+          Our platform uses advanced natural language processing to understand your birth details and questions, providing you with detailed interpretations and insights about your cosmic blueprint.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
+          <h3 class="text-2xl font-semibold text-white mb-4">How It Works</h3>
+          <ul class="space-y-4 text-gray-300">
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">1.</span>
+              <span>Enter your birth details including name, date, time, and place of birth</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">2.</span>
+              <span>Our AI analyzes your birth chart and planetary positions</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">3.</span>
+              <span>Receive a personalized reading with detailed interpretations</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">4.</span>
+              <span>Ask follow-up questions to dive deeper into specific aspects</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-6 transform transition-all duration-300 hover:scale-[1.02]">
+          <h3 class="text-2xl font-semibold text-white mb-4">Our Technology</h3>
+          <ul class="space-y-4 text-gray-300">
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">•</span>
+              <span>Advanced AI models trained on astrological knowledge</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">•</span>
+              <span>Natural language processing for understanding questions</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">•</span>
+              <span>Real-time chart calculations and interpretations</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-purple-400 mr-2">•</span>
+              <span>Secure and private data handling</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-8 transform transition-all duration-300">
+        <h2 class="text-3xl font-semibold text-white mb-6">Try It Yourself</h2>
+        <p class="text-gray-300 mb-6">
+          Experience the power of AI-powered astrology with our free demo. Get your personalized reading and discover what the stars have to say about your life path.
+        </p>
+        <div class="text-center">
+          <a
+            href="/try-astro"
+            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 transition-colors"
+          >
+            Try Astro Reading
+            <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout> 

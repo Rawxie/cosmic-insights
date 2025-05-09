@@ -1,11 +1,412 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import BirthDetailsForm from '../components/BirthDetailsForm.astro';
+import ReadingResult from '../components/ReadingResult.astro';
+import FAQ from '../components/FAQ';
+
+let reading = '';
+let isLoading = false;
+let error = null;
+
+// Handle form submission
+async function handleFormSubmit(data: { birthDetails: string; gender: string }) {
+	isLoading = true;
+	error = null;
+	reading = '';
+
+	try {
+		const response = await fetch('/api/reading', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data)
+		});
+
+		const result = await response.json();
+
+		if (!response.ok) {
+			throw new Error(result.error || result.details || 'Failed to generate reading');
+		}
+		
+		if (!result.reading) {
+			throw new Error('No reading was generated');
+		}
+
+		reading = result.reading;
+	} catch (err) {
+		error = err instanceof Error ? err.message : 'An unexpected error occurred';
+		console.error('Error:', err);
+	} finally {
+		isLoading = false;
+	}
+}
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Cosmic Insights - Your Personal Astrology Guide">
+	<Navigation currentPage="home" />
+	
+	<main class="min-h-screen bg-gray-900">
+		<!-- Cosmic vectors -->
+		<div class="cosmic-vector cosmic-vector-1"></div>
+		<div class="cosmic-vector cosmic-vector-2"></div>
+		<div class="cosmic-vector cosmic-vector-3"></div>
+
+		<!-- Hero Section -->
+		<div class="relative overflow-hidden">
+			<div class="absolute inset-0">
+				<div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-indigo-900/50 mix-blend-multiply"></div>
+				<div class="absolute inset-0 bg-[url('/images/cosmic-bg.jpg')] bg-cover bg-center opacity-20"></div>
+			</div>
+			<div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+				<h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl font-space-grotesk">
+					Discover Your Cosmic Path
+				</h1>
+				<p class="mt-6 text-xl text-gray-300 max-w-3xl font-space-mono">
+					Unlock the secrets of your birth chart and explore the cosmic influences that shape your life. Our AI-powered astrology readings provide personalized insights and guidance.
+				</p>
+				<div class="mt-10">
+					<a
+						href="/try-astro"
+						class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 transition-colors font-space-grotesk"
+					>
+						Try Astro Reading
+						<svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Statistics Section -->
+		<div class="py-24 bg-gray-900">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="text-center">
+					<h2 class="text-3xl font-extrabold text-white sm:text-4xl font-space-grotesk">
+						Our Performance Metrics
+					</h2>
+					<p class="mt-4 text-lg text-gray-300 font-space-mono">
+						Powered by advanced AI and astrological expertise
+					</p>
+				</div>
+
+				<div class="mt-20">
+					<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+						<!-- Stat 1 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-4xl font-bold text-white font-space-grotesk">99.99%</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">Accuracy Rate</p>
+							<p class="mt-1 text-sm text-gray-400 font-space-mono">Based on user feedback and expert validation</p>
+						</div>
+
+						<!-- Stat 2 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-4xl font-bold text-white font-space-grotesk">2.5s</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">Average Response Time</p>
+							<p class="mt-1 text-sm text-gray-400 font-space-mono">From submission to detailed reading</p>
+						</div>
+
+						<!-- Stat 3 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-4xl font-bold text-white font-space-grotesk">10K+</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">Happy Users</p>
+							<p class="mt-1 text-sm text-gray-400 font-space-mono">And counting worldwide</p>
+						</div>
+
+						<!-- Stat 4 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-4xl font-bold text-white font-space-grotesk">100%</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">Data Security</p>
+							<p class="mt-1 text-sm text-gray-400 font-space-mono">Your information is always protected</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Features Section -->
+		<div class="py-24 bg-gray-900">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="text-center">
+					<h2 class="text-3xl font-extrabold text-white sm:text-4xl font-space-grotesk">
+						What You'll Discover
+					</h2>
+					<p class="mt-4 text-lg text-gray-300 font-space-mono">
+						Our AI-powered astrology readings provide comprehensive insights into your cosmic blueprint.
+					</p>
+				</div>
+
+				<div class="mt-20">
+					<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+						<!-- Feature 1 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-lg font-medium text-white font-space-grotesk">Personalized Reading</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">
+								Get a detailed analysis of your birth chart based on your exact time and place of birth.
+							</p>
+						</div>
+
+						<!-- Feature 2 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-lg font-medium text-white font-space-grotesk">AI-Powered Insights</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">
+								Our advanced AI analyzes your chart to provide accurate and meaningful interpretations.
+							</p>
+						</div>
+
+						<!-- Feature 3 -->
+						<div class="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 transform transition-all duration-300 hover:scale-105">
+							<div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-500 text-white">
+								<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+								</svg>
+							</div>
+							<h3 class="mt-4 text-lg font-medium text-white font-space-grotesk">Future Predictions</h3>
+							<p class="mt-2 text-base text-gray-300 font-space-mono">
+								Get insights into upcoming planetary transits and their potential impact on your life.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FAQ Section -->
+		<FAQ client:load />
+
+		<!-- CTA Section -->
+		<div class="bg-gray-800/50 backdrop-blur-sm">
+			<div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+				<h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl font-space-grotesk">
+					<span class="block">Ready to explore your cosmic path?</span>
+					<span class="block text-purple-400 font-space-mono">Try our AI astrology reading today.</span>
+				</h2>
+				<div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+					<div class="inline-flex rounded-md shadow">
+						<a
+							href="/try-astro"
+							class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 transition-colors font-space-grotesk"
+						>
+							Get Started
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<style>
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.animate-fade-in {
+			animation: fadeIn 0.5s ease-out forwards;
+		}
+		.faq-answer {
+			transition: max-height 0.3s ease-out;
+			overflow: hidden;
+		}
+
+		.faq-question svg {
+			transition: transform 0.3s ease;
+		}
+
+		.faq-item {
+			transition: transform 0.2s ease;
+		}
+
+		.faq-item:hover {
+			transform: translateY(-2px);
+		}
+
+		.faq-question:hover {
+			background-color: rgba(55, 65, 81, 0.5);
+		}
+	</style>
+
+	<script>
+		let lastBirthDetails = '';
+
+		document.getElementById('birthForm')?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const form = e.target as HTMLFormElement;
+			const birthDetails = (form.elements.namedItem('birthDetails') as HTMLTextAreaElement).value;
+			
+			if (!birthDetails.trim()) {
+				showError('Please enter your birth details');
+				return;
+			}
+
+			lastBirthDetails = birthDetails;
+			await submitReading(birthDetails);
+		});
+
+		document.getElementById('questionForm')?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const form = e.target as HTMLFormElement;
+			const question = (form.elements.namedItem('question') as HTMLTextAreaElement).value;
+			
+			if (!question.trim()) {
+				showError('Please enter your question');
+				return;
+			}
+
+			await submitQuestion(question);
+		});
+
+		async function submitReading(birthDetails: string) {
+			const loadingIndicator = document.getElementById('loadingIndicator');
+			const readingResult = document.getElementById('readingResult');
+			const questionSection = document.getElementById('questionSection');
+			const errorMessage = document.getElementById('errorMessage');
+
+			try {
+				loadingIndicator?.classList.remove('hidden');
+				errorMessage?.classList.add('hidden');
+				readingResult?.classList.add('hidden');
+				questionSection?.classList.add('hidden');
+
+				const response = await fetch('/api/reading', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ birthDetails }),
+				});
+
+				const data = await response.json();
+
+				if (data.error) {
+					throw new Error(data.details || data.error);
+				}
+
+				if (readingResult) {
+					readingResult.innerHTML = data.reading;
+					readingResult.classList.remove('hidden');
+					questionSection?.classList.remove('hidden');
+				}
+			} catch (error) {
+				showError(error instanceof Error ? error.message : 'An error occurred');
+			} finally {
+				loadingIndicator?.classList.add('hidden');
+			}
+		}
+
+		async function submitQuestion(question: string) {
+			const loadingIndicator = document.getElementById('loadingIndicator');
+			const readingResult = document.getElementById('readingResult');
+			const errorMessage = document.getElementById('errorMessage');
+
+			try {
+				loadingIndicator?.classList.remove('hidden');
+				errorMessage?.classList.add('hidden');
+				readingResult?.classList.add('hidden');
+
+				const response = await fetch('/api/reading', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ 
+						birthDetails: lastBirthDetails,
+						question: question 
+					}),
+				});
+
+				const data = await response.json();
+
+				if (data.error) {
+					throw new Error(data.details || data.error);
+				}
+
+				if (readingResult) {
+					readingResult.innerHTML = data.reading;
+					readingResult.classList.remove('hidden');
+				}
+			} catch (error) {
+				showError(error instanceof Error ? error.message : 'An error occurred');
+			} finally {
+				loadingIndicator?.classList.add('hidden');
+			}
+		}
+
+		function showError(message: string) {
+			const errorMessage = document.getElementById('errorMessage');
+			if (errorMessage) {
+				errorMessage.textContent = message;
+				errorMessage.classList.remove('hidden');
+			}
+		}
+
+		// Wait for the DOM to be fully loaded
+		window.addEventListener('load', () => {
+			// FAQ Accordion functionality
+			const faqQuestions = document.querySelectorAll('.faq-question');
+			
+			faqQuestions.forEach(question => {
+				question.addEventListener('click', () => {
+					const answer = question.nextElementSibling;
+					const arrow = question.querySelector('svg');
+					
+					// Toggle current answer
+					const isHidden = answer.classList.contains('hidden');
+					
+					// First close all answers
+					faqQuestions.forEach(q => {
+						const a = q.nextElementSibling;
+						const arr = q.querySelector('svg');
+						if (a !== answer) {
+							a.classList.add('hidden');
+							arr.classList.remove('rotate-180');
+						}
+					});
+
+					// Then toggle the clicked answer
+					if (isHidden) {
+						answer.classList.remove('hidden');
+						arrow.classList.add('rotate-180');
+					} else {
+						answer.classList.add('hidden');
+						arrow.classList.remove('rotate-180');
+					}
+				});
+			});
+		});
+	</script>
 </Layout>

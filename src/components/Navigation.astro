@@ -1,0 +1,60 @@
+---
+const { currentPage } = Astro.props;
+---
+
+<nav class="bg-gray-900/80 backdrop-blur-sm border-b border-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a href="/" class="text-white text-xl font-bold flex items-center space-x-2">
+          <span class="text-purple-500">✨</span>
+          <span>Cosmic Insights</span>
+        </a>
+      </div>
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-4">
+          <a
+            href="/"
+            class={`px-3 py-2 rounded-md text-sm font-medium ${
+              currentPage === 'home'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+            }`}
+          >
+            Home
+          </a>
+          <a
+            href="/try-astro"
+            class={`px-3 py-2 rounded-md text-sm font-medium ${
+              currentPage === 'try-astro'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+            }`}
+          >
+            Try Astro
+          </a>
+          <a
+            href="/about"
+            class={`px-3 py-2 rounded-md text-sm font-medium ${
+              currentPage === 'about'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+            }`}
+          >
+            About
+          </a>
+          <a
+            href="/contact"
+            class={`px-3 py-2 rounded-md text-sm font-medium ${
+              currentPage === 'contact'
+                ? 'bg-purple-600 text-white'
+                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+            }`}
+          >
+            Contact
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav> 

@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+---
+
+<Layout title="Contact - Cosmic Insights">
+  <Navigation currentPage="contact" />
+  
+  <main class="min-h-screen bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <!-- Cosmic background elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
+      <div class="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style="animation-delay: 1s"></div>
+      <div class="absolute w-64 h-64 bg-indigo-500/20 rounded-full blur-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" style="animation-delay: 2s"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="text-center mb-12">
+        <h1 class="text-5xl font-bold text-white mb-4 animate-fade-in">Contact Us</h1>
+        <p class="text-xl text-gray-400 animate-fade-in" style="animation-delay: 0.2s">Get in touch with our cosmic team</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
+          <h2 class="text-2xl font-semibold text-white mb-6">Contact Information</h2>
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <svg class="h-6 w-6 text-purple-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <div>
+                <h3 class="text-lg font-medium text-white">Email</h3>
+                <p class="text-gray-300">contact@cosmicinsights.com</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="h-6 w-6 text-purple-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+              </svg>
+              <div>
+                <h3 class="text-lg font-medium text-white">Social Media</h3>
+                <p class="text-gray-300">@cosmicinsights</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <svg class="h-6 w-6 text-purple-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 class="text-lg font-medium text-white">Response Time</h3>
+                <p class="text-gray-300">Within 24 hours</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
+          <h2 class="text-2xl font-semibold text-white mb-6">Send Us a Message</h2>
+          <form class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-300">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="mt-1 block w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
+                required
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="mt-1 block w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
+                required
+              />
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-medium text-gray-300">Subject</label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                class="mt-1 block w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
+                required
+              />
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-300">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                class="mt-1 block w-full px-4 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent transition-all duration-300"
+                required
+              ></textarea>
+            </div>
+            <div>
+              <button
+                type="submit"
+                class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-xl p-8 transform transition-all duration-300">
+        <h2 class="text-2xl font-semibold text-white mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="border-b border-gray-700 pb-4">
+            <h3 class="text-lg font-medium text-white mb-2">How accurate are the readings?</h3>
+            <p class="text-gray-300">Our AI combines traditional astrological knowledge with modern interpretations to provide accurate and meaningful readings. However, astrology should be used as a tool for self-reflection rather than absolute prediction.</p>
+          </div>
+          <div class="border-b border-gray-700 pb-4">
+            <h3 class="text-lg font-medium text-white mb-2">Is my data secure?</h3>
+            <p class="text-gray-300">Yes, we take data privacy seriously. Your birth details and personal information are encrypted and stored securely. We never share your data with third parties.</p>
+          </div>
+          <div>
+            <h3 class="text-lg font-medium text-white mb-2">Can I get a refund?</h3>
+            <p class="text-gray-300">We offer a satisfaction guarantee. If you're not happy with your reading, contact us within 7 days for a full refund.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout> 

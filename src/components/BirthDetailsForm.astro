@@ -1,0 +1,81 @@
+---
+interface Props {
+  onSubmit: (data: { birthDetails: string; gender: string }) => void;
+}
+
+const { onSubmit } = Astro.props;
+---
+
+<form class="bg-gray-900 rounded-xl p-8 shadow-2xl" id="astrologyForm">
+  <div class="space-y-6">
+    <div>
+      <label for="birthDetails" class="form-label">Enter Your Birth Details</label>
+      <textarea 
+        id="birthDetails" 
+        name="birthDetails" 
+        class="form-input w-full h-48 resize-none" 
+        placeholder="Enter your details in the following format:
+Name: [Your Full Name]
+Date of Birth: [DD-MM-YYYY]
+Birth Place: [City, State, Country]
+Birth Time: [HH:MM AM/PM]"
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="gender" class="form-label">Gender</label>
+      <select id="gender" name="gender" class="form-input w-full" required>
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mt-8 text-center">
+    <button type="submit" class="btn-primary text-lg" id="submitButton">
+      Get Your Reading
+    </button>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById('astrologyForm');
+  const birthDetails = document.getElementById('birthDetails');
+  const gender = document.getElementById('gender');
+
+  // Load saved form data
+  function loadSavedFormData() {
+    const savedData = localStorage.getItem('astrologyFormData');
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      birthDetails.value = data.birthDetails || '';
+      gender.value = data.gender || '';
+    }
+  }
+
+  // Save form data
+  function saveFormData() {
+    const formData = {
+      birthDetails: birthDetails.value,
+      gender: gender.value
+    };
+    localStorage.setItem('astrologyFormData', JSON.stringify(formData));
+  }
+
+  // Load saved data when page loads
+  loadSavedFormData();
+
+  // Save form data when inputs change
+  form.addEventListener('input', saveFormData);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    onSubmit({
+      birthDetails: birthDetails.value,
+      gender: gender.value
+    });
+  });
+</script> 
