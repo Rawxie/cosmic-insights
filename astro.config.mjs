@@ -10,16 +10,10 @@ export default defineConfig({
   adapter: vercel({
     webAnalytics: {
       enabled: true
-    },
-    maxDuration: 10,
-    includeFiles: ['./src/pages/api/**/*']
+    }
   }),
   integrations: [
     tailwind(),
     react()
-  ],
-  server: {
-    port: 4321,
-    host: true
-  }
+  ]
 });
