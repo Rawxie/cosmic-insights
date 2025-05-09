@@ -1,4 +1,63 @@
-# Astro Starter Kit: Basics
+# Cosmic Insights - Astrology Website
+
+A modern astrology website built with Astro, React, and Tailwind CSS. This project provides personalized astrological readings and insights.
+
+## Features
+
+- 🌟 Interactive birth chart analysis
+- 📊 Detailed astrological readings
+- 🎨 Beautiful cosmic-themed UI
+- 📱 Responsive design
+- ⚡ Fast performance with Astro
+
+## Tech Stack
+
+- [Astro](https://astro.build)
+- [React](https://reactjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Vercel](https://vercel.com) (for deployment)
+
+## Getting Started
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/cosmic-insights.git
+cd cosmic-insights
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Build for production:
+```bash
+npm run build
+```
+
+## Project Structure
+
+```
+src/
+├── components/     # React and Astro components
+├── layouts/        # Page layouts
+├── pages/         # Route pages
+├── styles/        # Global styles
+└── utils/         # Utility functions
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ```sh
 npm create astro@latest -- --template basics
