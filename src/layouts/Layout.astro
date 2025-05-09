@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { Analytics } from '@vercel/analytics/react';
 
 interface Props {
 	title: string;
@@ -23,6 +24,7 @@ const { title } = Astro.props;
 	</head>
 	<body class="bg-gray-900 text-white font-space-mono">
 		<slot />
+		<Analytics />
 	</body>
 </html>
 
@@ -49,7 +51,7 @@ const { title } = Astro.props;
 
 	/* Cosmic vector styles */
 	.cosmic-vector {
-		position: absolute;
+		position: fixed;
 		pointer-events: none;
 		opacity: 0.1;
 		mix-blend-mode: screen;
