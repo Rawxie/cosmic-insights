@@ -1,4 +1,6 @@
 ---
+import SavedTexts from './SavedTexts';
+
 interface Props {
   onSubmit: (data: { birthDetails: string; gender: string }) => void;
 }
@@ -34,17 +36,42 @@ Birth Time: [HH:MM AM/PM]"
     </div>
   </div>
 
-  <div class="mt-8 text-center">
+  <div class="mt-8 flex justify-between items-center">
+    <button type="button" class="btn-secondary" id="saveButton">
+      Save Text
+    </button>
     <button type="submit" class="btn-primary text-lg" id="submitButton">
       Get Your Reading
     </button>
   </div>
 </form>
 
+<SavedTexts client:load />
+
 <script>
-  const form = document.getElementById('astrologyForm');
-  const birthDetails = document.getElementById('birthDetails');
-  const gender = document.getElementById('gender');
+  const form = document.getElementById('astrologyForm') as HTMLFormElement;
+  const birthDetails = document.getElementById('birthDetails') as HTMLTextAreaElement;
+  const gender = document.getElementById('gender') as HTMLSelectElement;
+  const saveButton = document.getElementById('saveButton') as HTMLButtonElement;
+
+  // Save text function
+  function saveText() {
+    const text = birthDetails.value;
+    if (!text) return;
+
+    const savedTexts = JSON.parse(localStorage.getItem('savedAstrologyTexts') || '[]');
+    const newText = {
+      id: Date.now().toString(),
+      text: text,
+      timestamp: Date.now()
+    };
+    
+    savedTexts.unshift(newText);
+    localStorage.setItem('savedAstrologyTexts', JSON.stringify(savedTexts));
+    
+    // Dispatch event to notify SavedTexts component
+    window.dispatchEvent(new CustomEvent('textSaved'));
+  }
 
   // Load saved form data
   function loadSavedFormData() {
@@ -71,11 +98,27 @@ Birth Time: [HH:MM AM/PM]"
   // Save form data when inputs change
   form.addEventListener('input', saveFormData);
 
+  // Add save button click handler
+  saveButton.addEventListener('click', saveText);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    onSubmit({
+    const formData = {
       birthDetails: birthDetails.value,
       gender: gender.value
-    });
+    };
+    // @ts-ignore - onSubmit is defined in the Astro component props
+    onSubmit(formData);
   });
-</script> 
+
+  // Listen for load text events from SavedTexts component
+  window.addEventListener('loadSavedText', ((e: CustomEvent) => {
+    birthDetails.value = e.detail.text;
+  }) as EventListener);
+</script>
+
+<style>
+  .btn-secondary {
+    @apply px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors;
+  }
+</style> 

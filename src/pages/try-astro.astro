@@ -36,10 +36,18 @@ Birth Place: City, State, Country
 Birth Time: HH:MM AM/PM"
             ></textarea>
           </div>
-          <div>
+          
+          <div class="flex justify-between items-center gap-4">
+            <button
+              type="button"
+              id="saveButton"
+              class="px-6 py-3 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-space-grotesk"
+            >
+              Save Text
+            </button>
             <button
               type="submit"
-              class="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-space-grotesk"
+              class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] font-space-grotesk"
             >
               Get Your Reading
             </button>
@@ -95,81 +103,154 @@ Birth Time: HH:MM AM/PM"
   </main>
 
   <script>
-    let lastBirthDetails = null;
+    let lastBirthDetails: string | null = null;
 
-    document.getElementById('birthForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const birthDetails = document.getElementById('birthDetails').value;
-      lastBirthDetails = birthDetails;
+    // Save text function
+    function saveText() {
+      const birthDetailsElement = document.getElementById('birthDetails');
+      if (!birthDetailsElement) return;
       
-      document.getElementById('loadingIndicator').classList.remove('hidden');
-      document.getElementById('readingResult').classList.add('hidden');
-      document.getElementById('questionSection').classList.add('hidden');
-      document.getElementById('answerSection').classList.add('hidden');
-      document.getElementById('errorMessage').classList.add('hidden');
+      const birthDetails = (birthDetailsElement as HTMLTextAreaElement).value;
+      if (!birthDetails) return;
 
-      try {
-        const response = await fetch('/api/reading', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ birthDetails }),
-        });
+      const savedTexts = JSON.parse(localStorage.getItem('savedAstrologyTexts') || '[]');
+      const newText = {
+        id: Date.now().toString(),
+        text: birthDetails,
+        timestamp: Date.now()
+      };
+      
+      savedTexts.unshift(newText);
+      localStorage.setItem('savedAstrologyTexts', JSON.stringify(savedTexts));
+      
+      // Show a success message
+      const successMessage = document.createElement('div');
+      successMessage.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300';
+      successMessage.textContent = 'Text saved successfully!';
+      document.body.appendChild(successMessage);
+      
+      // Remove the message after 3 seconds
+      setTimeout(() => {
+        successMessage.remove();
+      }, 3000);
+    }
 
-        const data = await response.json();
+    // Add save button click handler
+    const saveButton = document.getElementById('saveButton');
+    if (saveButton) {
+      saveButton.addEventListener('click', saveText);
+    }
 
-        if (data.error) {
-          throw new Error(data.error);
+    const birthForm = document.getElementById('birthForm');
+    if (birthForm) {
+      birthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const birthDetailsElement = document.getElementById('birthDetails');
+        if (!birthDetailsElement) return;
+        
+        const birthDetails = (birthDetailsElement as HTMLTextAreaElement).value;
+        lastBirthDetails = birthDetails;
+        
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const readingResult = document.getElementById('readingResult');
+        const questionSection = document.getElementById('questionSection');
+        const answerSection = document.getElementById('answerSection');
+        const errorMessage = document.getElementById('errorMessage');
+
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (readingResult) readingResult.classList.add('hidden');
+        if (questionSection) questionSection.classList.add('hidden');
+        if (answerSection) answerSection.classList.add('hidden');
+        if (errorMessage) errorMessage.classList.add('hidden');
+
+        try {
+          const response = await fetch('/api/reading', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ birthDetails }),
+          });
+
+          const data = await response.json();
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          if (readingResult) {
+            readingResult.innerHTML = data.reading;
+            readingResult.classList.remove('hidden');
+            if (questionSection) questionSection.classList.remove('hidden');
+          }
+        } catch (error) {
+          if (errorMessage) {
+            errorMessage.textContent = error instanceof Error ? error.message : 'An error occurred';
+            errorMessage.classList.remove('hidden');
+          }
+        } finally {
+          if (loadingIndicator) loadingIndicator.classList.add('hidden');
+        }
+      });
+    }
+
+    const questionForm = document.getElementById('questionForm');
+    if (questionForm) {
+      questionForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const questionElement = document.getElementById('question');
+        if (!questionElement) return;
+        
+        const question = (questionElement as HTMLTextAreaElement).value;
+        
+        if (!lastBirthDetails) {
+          const errorMessage = document.getElementById('errorMessage');
+          if (errorMessage) {
+            errorMessage.textContent = 'Please get a reading first before asking questions.';
+            errorMessage.classList.remove('hidden');
+          }
+          return;
         }
 
-        document.getElementById('readingResult').innerHTML = data.reading;
-        document.getElementById('readingResult').classList.remove('hidden');
-        document.getElementById('questionSection').classList.remove('hidden');
-      } catch (error) {
-        document.getElementById('errorMessage').textContent = error.message;
-        document.getElementById('errorMessage').classList.remove('hidden');
-      } finally {
-        document.getElementById('loadingIndicator').classList.add('hidden');
-      }
-    });
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const readingResult = document.getElementById('readingResult');
+        const errorMessage = document.getElementById('errorMessage');
 
-    document.getElementById('questionForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const question = document.getElementById('question').value;
-      
-      if (!lastBirthDetails) {
-        document.getElementById('errorMessage').textContent = 'Please get a reading first before asking questions.';
-        document.getElementById('errorMessage').classList.remove('hidden');
-        return;
-      }
+        if (loadingIndicator) loadingIndicator.classList.remove('hidden');
+        if (errorMessage) errorMessage.classList.add('hidden');
+        if (readingResult) readingResult.classList.add('hidden');
 
-      document.getElementById('loadingIndicator').classList.remove('hidden');
-      document.getElementById('errorMessage').classList.add('hidden');
+        try {
+          const response = await fetch('/api/reading', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              birthDetails: lastBirthDetails,
+              question: question 
+            }),
+          });
 
-      try {
-        const response = await fetch('/api/reading', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ birthDetails: lastBirthDetails, question }),
-        });
+          const data = await response.json();
 
-        const data = await response.json();
+          if (data.error) {
+            throw new Error(data.error);
+          }
 
-        if (data.error) {
-          throw new Error(data.error);
+          if (readingResult) {
+            readingResult.innerHTML = data.reading;
+            readingResult.classList.remove('hidden');
+          }
+        } catch (error) {
+          if (errorMessage) {
+            errorMessage.textContent = error instanceof Error ? error.message : 'An error occurred';
+            errorMessage.classList.remove('hidden');
+          }
+        } finally {
+          if (loadingIndicator) loadingIndicator.classList.add('hidden');
         }
-
-        document.getElementById('answerResult').innerHTML = data.reading;
-        document.getElementById('answerSection').classList.remove('hidden');
-      } catch (error) {
-        document.getElementById('errorMessage').textContent = error.message;
-        document.getElementById('errorMessage').classList.remove('hidden');
-      } finally {
-        document.getElementById('loadingIndicator').classList.add('hidden');
-      }
-    });
+      });
+    }
   </script>
 </Layout> 
