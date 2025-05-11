@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
+import SavedTexts from '../components/SavedTexts';
 ---
 
 <Layout title="Try Astro - AI Astrology Reading">
@@ -53,6 +54,10 @@ Birth Time: HH:MM AM/PM"
             </button>
           </div>
         </form>
+      </div>
+
+      <div class="mb-8">
+        <SavedTexts client:load />
       </div>
 
       <div id="loadingIndicator" class="hidden">
