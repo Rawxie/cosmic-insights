@@ -32,7 +32,12 @@ export default function SavedTexts() {
   };
 
   const loadText = (text: string) => {
-    window.dispatchEvent(new CustomEvent('loadSavedText', { detail: { text } }));
+    // Dispatch a custom event with the text to load
+    const event = new CustomEvent('loadSavedText', { 
+      detail: { text },
+      bubbles: true // Make sure the event bubbles up
+    });
+    window.dispatchEvent(event);
   };
 
   return (

@@ -110,6 +110,15 @@ Birth Time: HH:MM AM/PM"
   <script>
     let lastBirthDetails: string | null = null;
 
+    // Add event listener for loading saved text
+    window.addEventListener('loadSavedText', ((e: CustomEvent) => {
+      const birthDetailsElement = document.getElementById('birthDetails');
+      if (birthDetailsElement) {
+        (birthDetailsElement as HTMLTextAreaElement).value = e.detail.text;
+        lastBirthDetails = e.detail.text;
+      }
+    }) as EventListener);
+
     // Save text function
     function saveText() {
       const birthDetailsElement = document.getElementById('birthDetails');
