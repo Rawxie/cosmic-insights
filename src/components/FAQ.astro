@@ -5,7 +5,7 @@
         Frequently Asked Questions
       </h2>
       <p class="mt-4 text-lg text-gray-300 font-space-mono">
-        Learn how to get the most out of your cosmic reading.
+        Learn how to get the most out of your AstroYou reading.
       </p>
     </div>
 
@@ -122,14 +122,14 @@ Birth Time: 02:30 PM</code></pre>
           if (q !== question) {
             const a = q.nextElementSibling;
             const arr = q.querySelector('svg');
-            a.classList.add('hidden');
-            arr.classList.remove('rotate-180');
+            if (a) a.classList.add('hidden');
+            if (arr) arr.classList.remove('rotate-180');
           }
         });
 
         // Toggle current answer
-        answer.classList.toggle('hidden');
-        arrow.classList.toggle('rotate-180');
+        if (answer) answer.classList.toggle('hidden');
+        if (arrow) arrow.classList.toggle('rotate-180');
       });
     });
   }
