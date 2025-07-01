@@ -6,9 +6,9 @@ const { currentPage } = Astro.props;
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <div class="flex items-center">
-        <a href="/" class="text-yellow-300 text-xl font-bold flex items-center space-x-2">
-          <span class="text-purple-500">\u2728</span>
-          <span>AstroYou</span>
+        <a href="/" class="text-white text-xl font-bold flex items-center space-x-2">
+          <span class="text-purple-500">✨</span>
+          <span>Cosmic Insights</span>
         </a>
       </div>
       <div class="hidden md:block">
@@ -31,17 +31,7 @@ const { currentPage } = Astro.props;
                 : 'text-gray-300 hover:bg-gray-700 hover:text-white'
             }`}
           >
-            Get Reading
-          </a>
-          <a
-            href="/faq"
-            class={`px-3 py-2 rounded-md text-sm font-medium ${
-              currentPage === 'faq'
-                ? 'bg-purple-600 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-            }`}
-          >
-            FAQ
+            Try Astro
           </a>
           <a
             href="/about"

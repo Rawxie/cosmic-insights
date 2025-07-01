@@ -15,113 +15,16 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="ddosattack-target-verify" content="330cb7e52c53076ef8d6d2dfc306e764b48e98a3f3aaef23595bc13fb273ce9c" />
 		<meta name="description" content="Cosmic Insights - Your Personal Astrology Guide" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>AstroYou - Your Personal Astrology Guide</title>
+		<title>{Astro.props.title}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-		<meta name="theme-color" content="#1e1b4b" />
-		<style>
-			body {
-				background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-				min-height: 100vh;
-				font-family: 'Inter', sans-serif;
-				color: #f8fafc;
-				position: relative;
-				overflow-x: hidden;
-			}
-			.astro-navbar {
-				position: sticky;
-				top: 0;
-				z-index: 50;
-				background: rgba(30, 27, 75, 0.85);
-				backdrop-filter: blur(8px);
-				border-bottom: 1px solid rgba(120, 53, 220, 0.15);
-			}
-			.astro-navbar-logo {
-				font-family: 'EB Garamond', serif;
-				font-size: 2rem;
-				letter-spacing: 0.05em;
-				color: #fbbf24;
-				text-shadow: 0 2px 16px #a78bfa44;
-			}
-			.astro-navbar-link {
-				color: #f8fafc;
-				font-weight: 500;
-				margin-left: 2rem;
-				transition: color 0.2s;
-			}
-			.astro-navbar-link:hover {
-				color: #fbbf24;
-			}
-			.cosmic-bg {
-				position: fixed;
-				inset: 0;
-				z-index: 0;
-				pointer-events: none;
-				background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-				opacity: 0.5;
-				background-size: cover;
-				background-repeat: repeat;
-				animation: bg-move 60s linear infinite;
-			}
-			@keyframes bg-move {
-				0% { background-position: 0 0, 0 0; }
-				100% { background-position: 1000px 1000px, 0 0; }
-			}
-			.glass-panel {
-				background: rgba(30, 27, 75, 0.7);
-				border-radius: 1.5rem;
-				box-shadow: 0 8px 32px 0 #312e8144;
-				backdrop-filter: blur(12px);
-				border: 1px solid rgba(139, 92, 246, 0.15);
-			}
-			.astro-footer {
-				background: rgba(30, 27, 75, 0.85);
-				border-top: 1px solid rgba(120, 53, 220, 0.15);
-				padding: 2rem 0 1rem 0;
-				text-align: center;
-				font-size: 1rem;
-				color: #a5b4fc;
-				margin-top: 4rem;
-			}
-			.astro-footer a {
-				color: #fbbf24;
-				margin: 0 0.5rem;
-				text-decoration: underline;
-			}
-			.astro-footer a:hover {
-				color: #f8fafc;
-			}
-		</style>
+		<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 	</head>
-	<body>
-		<div class="cosmic-bg"></div>
-		<nav class="astro-navbar flex items-center justify-between px-8 py-4 shadow-lg">
-			<div class="astro-navbar-logo">AstroYou</div>
-			<div class="flex items-center">
-				<a href="/" class="astro-navbar-link">Home</a>
-				<a href="/try-astro" class="astro-navbar-link">Get Reading</a>
-				<a href="/faq" class="astro-navbar-link">FAQ</a>
-				<a href="/about" class="astro-navbar-link">About</a>
-				<a href="/contact" class="astro-navbar-link">Contact</a>
-			</div>
-		</nav>
-		<main class="relative z-10">
-			<slot />
-		</main>
-		<footer class="astro-footer">
-			<div>
-				&copy; {new Date().getFullYear()} AstroYou &mdash; Authentic AI Astrology
-				<span class="mx-2">|</span>
-				<a href="https://github.com/Rawxie/cosmic-insights" target="_blank">GitHub</a>
-				<a href="/privacy">Privacy</a>
-				<a href="/terms">Terms</a>
-			</div>
-			<div class="mt-2 text-xs text-gray-500">Made with <span style="color:#fbbf24">★</span> in the Cosmos</div>
-		</footer>
+	<body class="bg-gray-900 text-white font-space-mono">
+		<slot />
 		<Analytics />
 	</body>
 </html>
